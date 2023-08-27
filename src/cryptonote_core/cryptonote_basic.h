@@ -673,7 +673,11 @@ namespace cryptonote
                   vin[0].type() == typeid(txin_to_key) ? boost::get<txin_to_key>(vin[0]).key_offsets.size() - 1 : 0);
             } else {
               r = rct_signatures.p.serialize_rctsig_prunable(ar, rct_signatures.type, vin.size(), vout_xhv.size(),
-							     vin.size() > 0 && vin[0].type() == typeid(txin_haven_key) ? boost::get<txin_haven_key>(vin[0]).key_offsets.size() - 1 : 0);
+                  vin.size() > 0 && vin[0].type() == typeid(txin_to_key) ? boost::get<txin_to_key>(vin[0]).key_offsets.size() - 1 :
+                  vin.size() > 0 && vin[0].type() == typeid(txin_offshore) ? boost::get<txin_offshore>(vin[0]).key_offsets.size() - 1 :
+                  vin.size() > 0 && vin[0].type() == typeid(txin_onshore) ? boost::get<txin_onshore>(vin[0]).key_offsets.size() - 1 :
+                  vin.size() > 0 && vin[0].type() == typeid(txin_xasset) ? boost::get<txin_xasset>(vin[0]).key_offsets.size() - 1 :
+                  vin.size() > 0 && vin[0].type() == typeid(txin_haven_key) ? boost::get<txin_haven_key>(vin[0]).key_offsets.size() - 1 : 0);
             }
             if (!r || !ar.stream().good()) return false;
             ar.end_object();

@@ -163,46 +163,6 @@ namespace cryptonote
     return true;
   }
   //---------------------------------------------------------------
-  bool get_inputs_money_amount(const transaction& tx, uint64_t& money)
-  {
-    money = 0;
-    BOOST_FOREACH(const auto& in, tx.vin)
-    {
-      if (tx.blob_type != BLOB_TYPE_CRYPTONOTE_XHV) {
-        CHECKED_GET_SPECIFIC_VARIANT(in, const txin_to_key, tokey_in, false);
-        money += tokey_in.amount;
-      } else {
-        CHECKED_GET_SPECIFIC_VARIANT(in, const txin_haven_key, tokey_in, false);
-        money += tokey_in.amount;
-      }
-    }
-    return true;
-  }
-  //---------------------------------------------------------------
-  uint64_t get_block_height(const block& b)
-  {
-    CHECK_AND_ASSERT_MES(b.miner_tx.vin.size() == 1, 0, "wrong miner tx in block: " << get_block_hash(b) << ", b.miner_tx.vin.size() != 1");
-    CHECKED_GET_SPECIFIC_VARIANT(b.miner_tx.vin[0], const txin_gen, coinbase_in, 0);
-    return coinbase_in.height;
-  }
-  //---------------------------------------------------------------
-  bool check_inputs_types_supported(const transaction& tx)
-  {
-    BOOST_FOREACH(const auto& in, tx.vin)
-    {
-      if (tx.blob_type != BLOB_TYPE_CRYPTONOTE_XHV) {
-        CHECK_AND_ASSERT_MES(in.type() == typeid(txin_to_key), false, "wrong variant type: "
-          << in.type().name() << ", expected " << typeid(txin_to_key).name()
-          << ", in transaction id=" << get_transaction_hash(tx));
-      } else {
-        CHECK_AND_ASSERT_MES(in.type() == typeid(txin_haven_key), false, "wrong variant type: "
-                             << in.type().name() << ", expected " << typeid(txin_haven_key).name()
-                             << ", in transaction id=" << get_transaction_hash(tx));
-      }
-    }
-    return true;
-  }
-  //---------------------------------------------------------------
   std::string short_hash_str(const crypto::hash& h)
   {
     std::string res = string_tools::pod_to_hex(h);
