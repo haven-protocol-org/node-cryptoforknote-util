@@ -114,7 +114,7 @@ inline bool do_serialize(Archive &ar, bool &v)
   do {						\
     ar.tag("version");				\
     ar.serialize_varint(version);		\
-    if (!ar.good()) return false;		\
+    if (!ar.stream().good()) return false;		\
   } while(0);
 
 namespace serialization {

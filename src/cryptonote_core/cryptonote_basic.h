@@ -338,7 +338,7 @@ namespace cryptonote
     BEGIN_SERIALIZE()
     if (blob_type == BLOB_TYPE_CRYPTONOTE_XHV) {
       VARINT_FIELD(version)
-      if(version == 0 || CURRENT_TRANSACTION_VERSION < version) return false;
+        //if(version == 0 || CURRENT_TRANSACTION_VERSION < version) return false;
     
       // Only transactions prior to HAVEN_TYPES_TRANSACTION_VERSION are permitted to be anything other than HAVEN_TYPES and need translation
       if (version < HAVEN_TYPES_TRANSACTION_VERSION) {
